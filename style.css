@@ -1,0 +1,324 @@
+:root {
+  --bg: #060816;
+  --bg-2: #0b1230;
+  --panel: rgba(10, 18, 44, 0.72);
+  --panel-strong: rgba(12, 21, 53, 0.9);
+  --line: rgba(115, 175, 255, 0.28);
+  --text: #e8f3ff;
+  --muted: #9eb7d4;
+  --accent: #66f2ff;
+  --accent-2: #8f7cff;
+  --danger: #ff5983;
+  --warn: #ffc857;
+  --ok: #7dffa1;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: "Noto Sans SC", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(46, 86, 255, 0.18), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(143, 124, 255, 0.16), transparent 30%),
+    linear-gradient(180deg, #040612 0%, #071022 45%, #050713 100%);
+  overflow-x: hidden;
+}
+
+.bg-orb {
+  position: fixed;
+  inset: auto;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-a { width: 240px; height: 240px; top: 8%; left: 6%; background: rgba(102, 242, 255, 0.25); }
+.orb-b { width: 340px; height: 340px; right: -40px; bottom: 5%; background: rgba(143, 124, 255, 0.22); }
+
+.grid-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(145, 182, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(145, 182, 255, 0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  z-index: 0;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 36px;
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  gap: 28px;
+  align-items: start;
+}
+
+.intro, .game-shell {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(13, 19, 44, 0.76), rgba(9, 14, 33, 0.88));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.intro {
+  padding: 34px;
+  position: sticky;
+  top: 24px;
+}
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+}
+.intro h1 {
+  margin: 0;
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 24px rgba(102, 242, 255, 0.18);
+}
+.summary {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.feature-strip, .controls {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+.feature-strip span, .controls span {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(138, 181, 255, 0.18);
+  background: rgba(255,255,255,0.03);
+  color: #d6e8ff;
+}
+.controls span {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+kbd {
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.game-shell {
+  padding: 18px;
+}
+.game-top, .status-row, .touch-controls, .boss-head { display: flex; align-items: center; }
+.game-top, .status-row, .boss-head { justify-content: space-between; gap: 12px; }
+.hud {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  flex: 1;
+}
+.card {
+  padding: 10px 12px;
+  border: 1px solid rgba(138, 181, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+}
+.card span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+.card strong {
+  display: block;
+  margin-top: 4px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 20px;
+}
+.audio-button, #startButton, .touch-fire {
+  border: 1px solid rgba(128, 214, 255, 0.4);
+  background: linear-gradient(180deg, rgba(84, 213, 255, 0.25), rgba(96, 118, 255, 0.22));
+  color: white;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .2s ease;
+  box-shadow: 0 10px 24px rgba(75, 137, 255, 0.2);
+}
+.audio-button:hover, #startButton:hover, .touch-fire:hover { transform: translateY(-1px); }
+.audio-button:active, #startButton:active, .touch-fire:active { transform: translateY(1px) scale(.99); }
+.audio-button {
+  padding: 12px 14px;
+  border-radius: 14px;
+  min-width: 102px;
+  font-weight: 700;
+}
+.status-row {
+  margin: 14px 0 12px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(102, 242, 255, 0.35);
+  background: rgba(102, 242, 255, 0.08);
+  color: #ddfbff;
+  font-size: 14px;
+}
+.chip.alt {
+  border-color: rgba(255, 200, 87, 0.35);
+  background: rgba(255, 200, 87, 0.08);
+  color: #ffe8a6;
+}
+
+.boss-panel {
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 89, 131, 0.32);
+  background: rgba(255, 89, 131, 0.08);
+  border-radius: 18px;
+}
+.boss-panel.hidden { display: none; }
+.boss-bar {
+  margin-top: 10px;
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.boss-bar i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+  box-shadow: 0 0 22px rgba(255, 95, 109, 0.5);
+}
+
+.canvas-frame {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(143, 190, 255, 0.22);
+  background: radial-gradient(circle at 50% -20%, rgba(54, 91, 255, 0.4), rgba(7, 10, 20, 0) 34%), #040813;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 5;
+  touch-action: none;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(3, 7, 16, 0.4);
+  backdrop-filter: blur(8px);
+}
+.overlay.hidden { display: none; }
+.panel {
+  width: min(88%, 360px);
+  padding: 26px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(11, 21, 51, 0.96), rgba(9, 13, 29, 0.94));
+  border: 1px solid rgba(143, 190, 255, 0.24);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.panel-tag {
+  margin: 0 0 10px;
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent);
+  letter-spacing: .14em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.panel h2 { margin: 0 0 12px; font-size: 32px; line-height: 1.1; }
+.panel p { margin: 0 0 20px; color: var(--muted); line-height: 1.7; }
+#startButton { padding: 14px 22px; border-radius: 16px; font-size: 16px; font-weight: 800; }
+
+.touch-deck { margin-top: 14px; }
+.touch-card {
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(138, 181, 255, 0.18);
+  background: rgba(255,255,255,0.035);
+}
+.touch-card p { margin: 0 0 12px; color: #d7e7ff; }
+.touch-controls { justify-content: space-between; gap: 16px; }
+.touch-pad {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgba(102, 242, 255, 0.24);
+  background: radial-gradient(circle, rgba(85, 119, 255, 0.24), rgba(255,255,255,0.03));
+  touch-action: none;
+}
+.touch-ring {
+  position: absolute;
+  inset: 18px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.12);
+}
+.touch-knob {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(111, 237, 255, 0.95), rgba(114, 129, 255, 0.88));
+  box-shadow: 0 10px 18px rgba(64, 144, 255, 0.35);
+}
+.touch-fire {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  font-family: "Orbitron", sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; }
+  .intro { position: static; }
+}
+@media (max-width: 620px) {
+  .layout { width: calc(100% - 16px); padding-top: 10px; gap: 14px; }
+  .intro, .game-shell { border-radius: 22px; }
+  .intro { padding: 20px; }
+  .intro h1 { font-size: 42px; }
+  .summary { font-size: 14px; }
+  .game-shell { padding: 12px; }
+  .hud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .game-top { flex-direction: column; align-items: stretch; }
+  .status-row { flex-direction: column; align-items: stretch; }
+  .chip { justify-content: center; }
+  .touch-controls { align-items: center; }
+  .touch-pad { width: 110px; height: 110px; }
+  .touch-fire { width: 110px; height: 110px; font-size: 24px; }
+}
