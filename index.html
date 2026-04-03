@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云霄突击</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="grid-lines"></div>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">Neon Sky Raid</p>
+      <h1>云霄突击</h1>
+      <p class="summary">
+        这一版已经按你要的方向升级成完整街机小飞机：BOSS 战、补给掉落、触屏操作、合成音效与电子配乐，再加上一整套更有网页游戏味道的视觉包装。
+      </p>
+
+      <div class="feature-strip">
+        <span>每 3 波迎战 BOSS</span>
+        <span>补给：火力 / 护盾 / 急速 / 修复</span>
+        <span>键盘与触屏双支持</span>
+      </div>
+
+      <div class="controls">
+        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / 方向键移动</span>
+        <span><kbd>J</kbd> 或 <kbd>Space</kbd> 射击</span>
+        <span><kbd>R</kbd> 重新开始，手机端用下方摇杆和开火键</span>
+      </div>
+    </section>
+
+    <section class="game-shell">
+      <div class="game-top">
+        <div class="hud">
+          <div class="card">
+            <span>得分</span>
+            <strong id="score">0</strong>
+          </div>
+          <div class="card">
+            <span>生命</span>
+            <strong id="lives">3</strong>
+          </div>
+          <div class="card">
+            <span>波次</span>
+            <strong id="wave">1</strong>
+          </div>
+          <div class="card">
+            <span>火力</span>
+            <strong id="weapon">Lv.1</strong>
+          </div>
+        </div>
+
+        <button class="audio-button" id="audioButton" type="button">声音：开</button>
+      </div>
+
+      <div class="status-row">
+        <span class="chip" id="statusChip">准备起飞</span>
+        <span class="chip alt" id="effectChip">常规火力</span>
+      </div>
+
+      <div class="boss-panel hidden" id="bossPanel">
+        <div class="boss-head">
+          <span id="bossName">风暴母舰</span>
+          <strong id="bossValue">0 / 0</strong>
+        </div>
+        <div class="boss-bar">
+          <i id="bossFill"></i>
+        </div>
+      </div>
+
+      <div class="canvas-frame">
+        <canvas id="game" width="420" height="700" aria-label="飞机小游戏画布"></canvas>
+
+        <div class="overlay" id="overlay">
+          <div class="panel">
+            <p class="panel-tag" id="panelTag">准备起飞</p>
+            <h2 id="panelTitle">按下开始进入战场</h2>
+            <p id="panelText">击落敌机、接补给、迎击母舰。建议打开声音体验更完整。</p>
+            <button id="startButton" type="button">开始游戏</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="touch-deck">
+        <div class="touch-card">
+          <p>触屏操作</p>
+          <div class="touch-controls">
+            <div class="touch-pad" id="touchPad">
+              <div class="touch-ring"></div>
+              <div class="touch-knob" id="touchKnob"></div>
+            </div>
+            <button class="touch-fire" id="fireButton" type="button">FIRE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
