@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>上门体育课程计划生成器</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif;background:#f5f6fa;margin:0;padding:16px;color:#222}.box{max-width:920px;margin:auto;background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 28px rgba(0,0,0,.08)}h1{font-size:24px;margin:0 0 8px}.note{color:#666;line-height:1.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-weight:700;font-size:14px;display:block;margin:8px 0 6px}input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:15px}textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}button{margin-top:16px;margin-right:8px;border:0;border-radius:12px;padding:13px 16px;background:#111;color:#fff;font-size:16px}button.gray{background:#e9e9ef;color:#111}#out{margin-top:20px;background:#fafafa;border:1px solid #e5e5e5;border-radius:14px;padding:16px;white-space:pre-wrap;line-height:1.75;min-height:120px}@media(max-width:700px){.grid{grid-template-columns:1fr}.box{padding:16px}}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>上门体育课程计划生成器</h1>
+<p class="note">输入孩子情况，一键生成 60 分钟上门体育课程方案。纯网页运行，不需要登录，不消耗 token。</p>
+<div class="grid">
+<div><label>年龄</label><input id="age" placeholder="例如：9岁"></div>
+<div><label>性别</label><select id="gender"><option>男生</option><option>女生</option></select></div>
+<div><label>年级</label><input id="grade" placeholder="例如：三年级"></div>
+<div><label>体能情况</label><select id="body"><option>普通</option><option>偏胖</option><option>偏瘦</option><option>体能较弱</option><option>协调性较差</option></select></div>
+<div><label>训练目标</label><select id="goal"><option>提升体能</option><option>减脂控重</option><option>提升协调性</option><option>提升专注力</option><option>中考体育基础</option><option>篮球/足球基础体能</option></select></div>
+<div><label>课程强度</label><select id="level"><option>简单</option><option>中等</option><option>稍强</option></select></div>
+<div class="full"><label>孩子特点/家长反馈</label><textarea id="notes" placeholder="例如：不容易坚持，容易生气，不喜欢太多小游戏"></textarea></div>
+</div>
+<button onclick="gen()">生成课程方案</button><button class="gray" onclick="copyOut()">复制结果</button><button class="gray" onclick="clearAll()">清空</button>
+<div id="out">生成结果会显示在这里。</div>
+</div>
+<script>
+function v(id){return document.getElementById(id).value.trim()}
+function arr(a){return a.map((x,i)=>(i+1)+'. '+x).join('\n')}
+function warm(level){if(level==='简单')return ['原地小步跑 2 分钟','肩、髋、膝、踝关节活动 3 分钟','开合跳 2 组，每组 15 次','动态拉伸 3 分钟'];if(level==='稍强')return ['慢跑或原地跑 3 分钟','动态关节活动 3 分钟','高抬腿 3 组，每组 20 秒','开合跳 3 组，每组 20 次','弓步压腿和踝关节激活 3 分钟'];return ['原地跑 3 分钟','关节活动 3 分钟','高抬腿 2 组，每组 20 秒','开合跳 2 组，每组 20 次','动态拉伸 2 分钟']}
+function main(goal,body,level){let rest=level==='简单'?'每组休息45-60秒':level==='稍强'?'每组休息20-40秒':'每组休息30-45秒';if(goal==='减脂控重'||body==='偏胖')return ['折返快走/慢跑 6 组，每组 20 米，'+rest,'深蹲 4 组，每组 10-12 次','登山跑 4 组，每组 20 秒','平板支撑 3 组，每组 20-30 秒','低冲击波比 3 组，每组 6-8 次'];if(goal==='提升协调性'||body==='协调性较差')return ['绳梯步伐或地面格子步 6 轮','单脚站立 3 组，每边 20 秒','左右侧滑步 5 组，每组 20 秒','手脚配合拍球/抛接球 8 分钟','跨障碍小跳 4 组，每组 8 次'];if(goal==='提升专注力')return ['听口令变向跑 8 分钟','颜色/数字反应训练 6 分钟','平衡站立加口令动作 4 组','核心支撑 3 组，每组 20-30 秒','短距离折返跑 5 组'];if(goal==='中考体育基础')return ['跳绳基础 6 分钟，分组完成','核心力量：平板支撑 4 组，每组 30 秒','下肢力量：深蹲 4 组，每组 12 次','短距离加速跑 6 组，每组 15-20 米','柔韧拉伸：坐位体前屈练习 6 分钟'];if(goal==='篮球/足球基础体能')return ['变向跑 6 组，每组 20 秒','侧滑步 5 组，每组 20 秒','急停启动 6 组','核心抗旋转训练 3 组','球感或脚步结合体能训练 10 分钟'];return ['折返跑 5 组，每组 20 米，'+rest,'深蹲 4 组，每组 10 次','弓步走 3 组，每组 10 步','平板支撑 3 组，每组 20-30 秒','小跳跃训练 4 组，每组 10 次']}
+function advice(t){let a=[];if(t.includes('生气')||t.includes('情绪'))a.push('孩子容易有情绪时，不连续否定，用“完成一组就休息30秒”的方式降低抵触。');if(t.includes('不坚持')||t.includes('坚持'))a.push('每个动作控制在3-5分钟内，给小目标，避免长时间单一训练。');if(t.includes('感统')||t.includes('协调'))a.push('加入平衡、节奏、左右方向转换训练，但不强行追求速度。');if(t.includes('游戏'))a.push('如果家长不想太多小游戏，只保留口令反应、折返挑战这类训练型互动。');if(!a.length)a.push('观察孩子呼吸、脸色和情绪，动作质量优先于数量。');return a}
+function gen(){let age=v('age')||'未填写',gender=v('gender'),grade=v('grade')||'未填写',body=v('body'),goal=v('goal'),level=v('level'),notes=v('notes')||'无';let text=`【上门体育 60 分钟课程方案】\n\n一、学生情况\n年龄：${age}\n性别：${gender}\n年级：${grade}\n体能情况：${body}\n训练目标：${goal}\n课程强度：${level}\n家长反馈：${notes}\n\n二、课程目标\n1. 提升基础体能，包括心肺、下肢力量、核心稳定。\n2. 让孩子在可接受强度内完成训练，减少抗拒。\n3. 建立基础动作质量，避免只追求累和出汗。\n\n三、课程安排\n\n1. 热身激活：10 分钟\n${arr(warm(level))}\n\n2. 主训练：30 分钟\n${arr(main(goal,body,level))}\n\n3. 体能小循环：10 分钟\n循环 2-3 轮，按孩子状态调整：\n1. 深蹲 10 次\n2. 原地高抬腿 20 秒\n3. 平板支撑 20 秒\n4. 折返跑 2 次\n5. 休息 60 秒\n\n4. 放松拉伸：8 分钟\n1. 小腿拉伸 1 分钟\n2. 大腿前侧拉伸 1 分钟\n3. 大腿后侧拉伸 1 分钟\n4. 髋部拉伸 1 分钟\n5. 肩颈放松 1 分钟\n6. 深呼吸调整 2-3 分钟\n\n5. 课后反馈：2 分钟\n向家长反馈：今天完成度、表现最好的动作、下节课重点。\n\n四、教学注意事项\n${arr(advice(notes))}\n\n五、给家长的话术\n今天主要围绕「${goal}」进行训练，整体强度会根据孩子现场状态调整。后续建议保持每周1-2次规律训练，先建立基础体能、动作习惯和运动积极性。`;document.getElementById('out').textContent=text}
+function copyOut(){navigator.clipboard.writeText(document.getElementById('out').textContent).then(()=>alert('已复制')).catch(()=>alert('复制失败，请手动选择复制'))}
+function clearAll(){['age','grade','notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('out').textContent='生成结果会显示在这里。'}
+</script>
+</body>
+</html>
