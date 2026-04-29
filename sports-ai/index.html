@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI上门体育课程计划生成器</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif;background:#f5f6fa;margin:0;padding:16px;color:#222}.box{max-width:920px;margin:auto;background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 28px rgba(0,0,0,.08)}h1{font-size:24px;margin:0 0 8px}.note{color:#666;line-height:1.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-weight:700;font-size:14px;display:block;margin:8px 0 6px}input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:15px}textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}button{margin-top:16px;margin-right:8px;border:0;border-radius:12px;padding:13px 16px;background:#111;color:#fff;font-size:16px}button.gray{background:#e9e9ef;color:#111}button:disabled{opacity:.55}#out{margin-top:20px;background:#fafafa;border:1px solid #e5e5e5;border-radius:14px;padding:16px;white-space:pre-wrap;line-height:1.75;min-height:160px}.warn{font-size:13px;color:#777;line-height:1.6}@media(max-width:700px){.grid{grid-template-columns:1fr}.box{padding:16px}}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>AI上门体育课程计划生成器</h1>
+<p class="note">输入孩子情况后，调用后端 AI 接口生成更自然的课程方案。API Key 不在网页前端保存。</p>
+<div class="grid">
+<div><label>年龄</label><input id="age" placeholder="例如：9岁"></div>
+<div><label>性别</label><select id="gender"><option>男生</option><option>女生</option></select></div>
+<div><label>年级</label><input id="grade" placeholder="例如：三年级"></div>
+<div><label>体能情况</label><select id="body"><option>普通</option><option>偏胖</option><option>偏瘦</option><option>体能较弱</option><option>协调性较差</option></select></div>
+<div><label>训练目标</label><select id="goal"><option>提升体能</option><option>减脂控重</option><option>提升协调性</option><option>提升专注力</option><option>中考体育基础</option><option>篮球/足球基础体能</option></select></div>
+<div><label>课程强度</label><select id="level"><option>简单</option><option>中等</option><option>稍强</option></select></div>
+<div class="full"><label>孩子特点/家长反馈</label><textarea id="notes" placeholder="例如：不容易坚持，容易生气，不喜欢太多小游戏"></textarea></div>
+</div>
+<button id="genBtn" onclick="genAI()">AI生成课程方案</button><button class="gray" onclick="copyOut()">复制结果</button><button class="gray" onclick="clearAll()">清空</button>
+<div id="out">生成结果会显示在这里。</div>
+<p class="warn">提示：如果提示“服务器没有配置 DEEPSEEK_API_KEY”，说明还没有在部署平台里添加环境变量。</p>
+</div>
+<script>
+function v(id){return document.getElementById(id).value.trim()}
+async function genAI(){
+ const btn=document.getElementById('genBtn');const out=document.getElementById('out');
+ btn.disabled=true;btn.textContent='生成中...';out.textContent='正在调用 AI 生成，请稍等...';
+ try{
+  const payload={age:v('age'),gender:v('gender'),grade:v('grade'),body:v('body'),goal:v('goal'),level:v('level'),notes:v('notes')};
+  const r=await fetch('/api/generate-course',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await r.json();
+  if(!r.ok) throw new Error(data.error||'生成失败');
+  out.textContent=data.text||'没有生成内容';
+ }catch(e){out.textContent='生成失败：'+e.message+'\n\n如果你现在用的是 GitHub Pages，它不支持后端 API。需要部署到 Vercel 后才能调用 AI。'}
+ finally{btn.disabled=false;btn.textContent='AI生成课程方案'}
+}
+function copyOut(){navigator.clipboard.writeText(document.getElementById('out').textContent).then(()=>alert('已复制')).catch(()=>alert('复制失败，请手动选择复制'))}
+function clearAll(){['age','grade','notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('out').textContent='生成结果会显示在这里。'}
+</script>
+</body>
+</html>
